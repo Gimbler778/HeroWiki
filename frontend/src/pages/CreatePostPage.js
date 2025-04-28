@@ -1,23 +1,22 @@
-// filepath: d:\a 2.o\herowiki\frontend\src\pages\CreatePostPage.js
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react'; // Added useState import
+import { useNavigate } from 'react-router-dom'; // Added useNavigate import
 import Layout from '../components/Layout';
 import { createHero } from '../services/heroService';
 
-// --- Define Color Palette (Tailwind class names) ---
+// --- Updated Color Palette ---
 const colorPalette = [
-    { name: 'Base', class: 'bg-base-200' },
-    { name: 'Neutral', class: 'bg-neutral' },
-    { name: 'Primary', class: 'bg-primary/30' }, // Using opacity variants
-    { name: 'Secondary', class: 'bg-secondary/30' },
-    { name: 'Accent', class: 'bg-accent/30' },
-    { name: 'Info', class: 'bg-info/30' },
-    { name: 'Success', class: 'bg-success/30' },
-    { name: 'Warning', class: 'bg-warning/30' },
-    { name: 'Error', class: 'bg-error/30' },
+    { name: 'Blue', class: 'bg-blue-500', textColor: 'text-white' },
+    { name: 'Green', class: 'bg-green-500', textColor: 'text-white' },
+    { name: 'Yellow', class: 'bg-yellow-500', textColor: 'text-black' },
+    { name: 'Red', class: 'bg-red-500', textColor: 'text-white' },
+    { name: 'Purple', class: 'bg-purple-500', textColor: 'text-white' },
+    { name: 'Cyan', class: 'bg-cyan-500', textColor: 'text-black' },
+    { name: 'Orange', class: 'bg-orange-500', textColor: 'text-black' },
+    { name: 'Pink', class: 'bg-pink-500', textColor: 'text-black' },
+    { name: 'Lime', class: 'bg-lime-500', textColor: 'text-black' },
+    { name: 'Teal', class: 'bg-teal-500', textColor: 'text-white' },
 ];
-const defaultColor = colorPalette[0].class; // Default to 'Base'
-// --- End Color Palette ---
+const defaultColor = colorPalette[0]; // Default to 'Blue'
 
 function CreatePostPage() {
     const [title, setTitle] = useState('');
@@ -29,7 +28,7 @@ function CreatePostPage() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!title.trim()) { // Keep description optional if desired
+        if (!title.trim()) {
             setError("Hero Title / Name cannot be empty.");
             return;
         }
@@ -37,15 +36,19 @@ function CreatePostPage() {
         setError(null);
 
         try {
-            // Include cardColor in the data sent to the backend
-            await createHero({ title, description, cardColor });
+            // Pass both bgColor and textColor to the backend
+            await createHero({
+                title,
+                description,
+                cardColor: cardColor.class,
+                textColor: cardColor.textColor,
+            });
             navigate('/feed');
         } catch (err) {
             console.error("Failed to create hero:", err);
             setError(err.response?.data?.message || "Failed to create hero. Please try again.");
-            setIsSubmitting(false); // Only set back on error
+            setIsSubmitting(false);
         }
-        // No finally block needed if we only reset isSubmitting on error
     };
 
     return (
@@ -81,7 +84,6 @@ function CreatePostPage() {
                         placeholder="Describe the hero's powers, origin, etc."
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
-                        // required // Make description optional if needed
                         disabled={isSubmitting}
                     ></textarea>
                 </div>
@@ -98,16 +100,17 @@ function CreatePostPage() {
                                     type="radio"
                                     name="cardColor"
                                     value={color.class}
-                                    checked={cardColor === color.class}
-                                    onChange={(e) => setCardColor(e.target.value)}
-                                    className="sr-only" // Hide the actual radio button
+                                    checked={cardColor.class === color.class}
+                                    onChange={() => setCardColor(color)}
+                                    className="sr-only"
                                     disabled={isSubmitting}
                                 />
-                                {/* Visual swatch */}
                                 <div
                                     className={`w-8 h-8 rounded-full border-2 ${
-                                        cardColor === color.class ? 'border-primary scale-110 ring-2 ring-primary ring-offset-base-100 ring-offset-2' : 'border-base-content/20'
-                                    } ${color.class} transition-transform`} // Apply color class, add selection indicator
+                                        cardColor.class === color.class
+                                            ? 'border-primary scale-110 ring-2 ring-primary ring-offset-base-100 ring-offset-2'
+                                            : 'border-base-content/20'
+                                    } ${color.class} transition-transform`}
                                 ></div>
                             </label>
                         ))}
@@ -115,10 +118,9 @@ function CreatePostPage() {
                 </div>
                 {/* --- End Color Palette Selection --- */}
 
-
                 <button
                     type="submit"
-                    className={`btn btn-outline btn-secondary ${isSubmitting ? 'btn-disabled' : ''}`} // Updated button style
+                    className={`btn btn-outline btn-secondary ${isSubmitting ? 'btn-disabled' : ''}`}
                     disabled={isSubmitting}
                 >
                     {isSubmitting ? <span className="loading loading-spinner loading-sm"></span> : 'Submit'}
