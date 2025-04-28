@@ -1,18 +1,21 @@
+# filepath: d:\a 2.o\herowiki\backend\src\main\resources\application.yml
 spring:
   datasource:
-    url: jdbc:h2:mem:testdb
+    # Change from in-memory to file-based H2
+    url: jdbc:h2:file:./data/herowiki # <<< CHANGE THIS LINE
     driver-class-name: org.h2.Driver
     username: sa
     password: password
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: update # Keep this
     show-sql: true
     database-platform: org.hibernate.dialect.H2Dialect
-  security:
-    user:
-      name: admin
-      password: admin
+  # Remove default security user/pass if not needed, rely on SecurityConfig
+  # security:
+  #   user:
+  #     name: admin
+  #     password: admin
   h2:
     console:
       enabled: true

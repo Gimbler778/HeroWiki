@@ -1,11 +1,11 @@
+// filepath: d:\a 2.o\herowiki\backend\src\main\java\com\yourcompany\herowiki\model\Hero.java
 package com.yourcompany.herowiki.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Lob; // <<< IMPORT THIS
-// Optionally import Column if using that approach
+import jakarta.persistence.Lob;
 // import jakarta.persistence.Column;
 
 @Entity
@@ -17,12 +17,12 @@ public class Hero {
 
     private String title;
 
-    @Lob // <<< ADD THIS ANNOTATION
-    // Alternatively: @Column(columnDefinition = "TEXT") // Use this OR @Lob
+    @Lob
     private String description;
 
-    // Getters and Setters
-    // ... (keep existing getters and setters)
+    private String cardColor; // <<< ADD THIS FIELD
+
+    // --- GETTERS AND SETTERS ---
     public Long getId() {
         return id;
     }
@@ -45,5 +45,13 @@ public class Hero {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getCardColor() { // <<< ADD GETTER
+        return cardColor;
+    }
+
+    public void setCardColor(String cardColor) { // <<< ADD SETTER
+        this.cardColor = cardColor;
     }
 }

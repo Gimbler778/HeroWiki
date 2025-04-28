@@ -6,8 +6,11 @@ body {
   background-image: url('https://images7.alphacoders.com/983/983491.png');
   background-size: cover;
   background-position: center;
-  background-attachment: fixed; /* Keeps background fixed during scroll */
-  background-repeat: no-repeat;
+  /*backgrond is not fixed and scrolls*/
+  background-attachment: scroll; /* Change to 'fixed' if you want it to stay in place */
+  background-repeat: no-repeat; /* Prevents the image from repeating */
+  background-color: #000; /* Fallback color in case image fails to load */
+  
   min-height: 100vh; /* Ensure body covers full height */
   @apply text-base-content; /* Use DaisyUI's base content color for default text */
 }

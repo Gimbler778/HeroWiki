@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const backgroundImageUrl = 'https://i.pinimg.com/736x/c6/99/6e/c6996e551757ea2975cd2584f8f93e92.jpg';
+const backgroundImageUrl = 'https://www.reddit.com/media?url=https%3A%2F%2Fpreview.redd.it%2Fdark-fantasy-3-v0-k7e9hd36jr9d1.jpg%3Fwidth%3D604%26format%3Dpjpg%26auto%3Dwebp%26s%3D0ed36fa9cd73b1b57090dd6df75a672347171776';
 
 function LandingPage() {
     const navigate = useNavigate();
