@@ -85,7 +85,7 @@ HeroWiki is a community-driven platform where users can create, explore, and sha
 ![Feed Page](/screenshots/feedpage.png)
 
 ### Create Post Page
-![Create Post Page](/screenshots/createpostpage.png)
+![Create Post Page](/screenshots/createpost.png)
 
 ### Display Page
 ![Display Page](/screenshots/displaypage.png)
