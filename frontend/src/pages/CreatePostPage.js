@@ -118,10 +118,10 @@ function CreatePostPage() {
 
                 <button
                     type="submit"
-                    className={`btn btn-primary ${isSubmitting ? 'btn-disabled' : ''}`} // Use btn-disabled correctly
+                    className={`btn btn-outline btn-secondary ${isSubmitting ? 'btn-disabled' : ''}`} // Updated button style
                     disabled={isSubmitting}
                 >
-                    {isSubmitting ? <span className="loading loading-spinner loading-sm"></span> : 'Submit Hero'}
+                    {isSubmitting ? <span className="loading loading-spinner loading-sm"></span> : 'Submit'}
                 </button>
             </form>
         </Layout>

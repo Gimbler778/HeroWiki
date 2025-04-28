@@ -24,7 +24,7 @@ function LandingPage() {
                     </p>
                     <button
                         onClick={handleGetStarted}
-                        className="btn btn-primary btn-lg"
+                        className="btn btn-outline btn-accent btn-lg" // Updated button style
                     >
                         Get Started
                     </button>
