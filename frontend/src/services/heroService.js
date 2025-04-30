@@ -17,7 +17,7 @@ export const createHero = async (heroData) => {
     return response.data;
 };
 
-export const updateHero = async (id, heroData) => {
+export const updateHero = async (id, heroData) => { // Update hero by ID
     const response = await axios.put(`${API_URL}/${id}`, heroData);
     return response.data;
 };

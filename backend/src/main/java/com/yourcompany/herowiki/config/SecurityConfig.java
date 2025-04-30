@@ -2,7 +2,7 @@ package com.yourcompany.herowiki.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod; // <<< RE-ADD THIS IMPORT
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import static org.springframework.security.config.Customizer.withDefaults;
@@ -16,16 +16,16 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .cors(withDefaults())
-            .csrf(csrf -> csrf.disable())
-            // ---> RESTORE INTENDED SECURITY RULES <---
+            .csrf(csrf -> csrf.disable()) // Disable CSRF for simplicity
             .authorizeHttpRequests(authz -> authz
-                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Allow OPTIONS
-                .requestMatchers(HttpMethod.GET, "/api/heroes", "/api/heroes/**").permitAll() // Allow GET
-                .requestMatchers(HttpMethod.POST, "/api/heroes").permitAll() // Allow POST
-                .anyRequest().authenticated() // Authenticate others (PUT, DELETE, etc.)
+                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Allow OPTIONS requests
+                .requestMatchers(HttpMethod.GET, "/api/heroes", "/api/heroes/**").permitAll() // Allow GET requests
+                .requestMatchers(HttpMethod.POST, "/api/heroes").permitAll() // Allow POST requests
+                .requestMatchers(HttpMethod.PUT, "/api/heroes/**").permitAll() // Allow PUT requests
+                .requestMatchers(HttpMethod.DELETE, "/api/heroes/**").permitAll() // Allow DELETE requests
+                .anyRequest().authenticated() // Require authentication for other requests
             )
-            // ---> RESTORE httpBasic (optional for now, but good practice) <---
-            .httpBasic(withDefaults());
+            .httpBasic(withDefaults()); // Use basic authentication (optional)
 
         return http.build();
     }
