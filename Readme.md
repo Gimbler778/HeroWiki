@@ -7,9 +7,10 @@ HeroWiki is a community-driven platform where users can create, explore, and sha
 - **Hero Creation**: Users can create hero profiles with a title, description (Markdown supported), and customizable card colors.
 - **Hero Feed**: A dynamic feed displaying all created heroes with upvote and downvote functionality.
 - **Hero Details**: View detailed information about a hero on a dedicated display page.
-- **Quotes Section**: A scrolling section of inspirational quotes from various lores and games.
+- **Markdown Support**: Write hero descriptions using Markdown syntax for better formatting.
+- **Customizable Cards**: Each hero card can be customized with different colors and styles.
+
 - **Responsive Design**: Fully responsive UI with a dark theme for better readability.
-- **Social Links**: Footer includes links to Instagram and LinkedIn profiles.
 
 ## Tech Stack
 
@@ -56,6 +57,18 @@ HeroWiki is a community-driven platform where users can create, explore, and sha
    - Navigate to the frontend directory:
      ```bash
      cd ../frontend
+     ```
+   - Install dependencies:
+      ```bash
+      npm install react-router-dom axios react-markdown
+      ```
+   - Install Tailwind CSS and DaisyUI:
+     ```bash
+     npm install tailwindcss daisyui
+     ```
+   - Initialize Tailwind CSS:
+     ```bash
+     npx tailwindcss init
      ```
    - Install dependencies:
      ```bash
