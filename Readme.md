@@ -74,7 +74,7 @@ HeroWiki is a community-driven platform where users can create, explore, and sha
 - **GET** `/api/heroes/{id}`: Fetch a hero by ID.
 - **POST** `/api/heroes`: Create a new hero.
 - **PUT** `/api/heroes/{id}`: Update an existing hero.
-- **DELETE** `/api/heroes/{id}`: Delete a hero by ID.
+
 
 ## Screenshots
 
