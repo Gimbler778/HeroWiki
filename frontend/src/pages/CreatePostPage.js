@@ -32,6 +32,10 @@ function CreatePostPage() {
             setError("Hero Title / Name cannot be empty.");
             return;
         }
+        if (!description.trim()) {
+            setError("Description cannot be empty.");
+            return;
+        }
         setIsSubmitting(true);
         setError(null);
 

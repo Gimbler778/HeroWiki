@@ -4,12 +4,14 @@ import Footer from './Footer';
 
 function Layout({ children }) {
     return (
-        <div className="flex flex-col min-h-screen">
+        <div>
             <Navbar />
-            {/* Add backdrop-blur-sm to the main element */}
-            <main className="flex-grow container mx-auto px-4 py-8 bg-base-100 bg-opacity-80 rounded-lg my-8 shadow-lg backdrop-blur-sm"> {/* <<< Added backdrop-blur-sm */}
-                {children}
-            </main>
+            <div className="flex flex-col min-h-screen px-10">
+                {/* Add bg-black and adjust bg-opacity */}
+                <main className="flex-grow container mx-auto px-4 py-8 bg-black bg-opacity-40 rounded-lg my-8 shadow-lg backdrop-blur-sm">
+                    {children}
+                </main>
+            </div>
             <Footer />
         </div>
     );

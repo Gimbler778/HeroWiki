@@ -5,8 +5,8 @@
 @import '@fortawesome/fontawesome-free/css/all.min.css';
 body {
   background-image: url('https://images7.alphacoders.com/983/983491.png');
-  background-size: cover;
-  background-position: center;
+ 
+  /* opacity */
   /*backgrond is not fixed and scrolls*/
   background-attachment: scroll; /* Change to 'fixed' if you want it to stay in place */
   background-repeat: no-repeat; /* Prevents the image from repeating */

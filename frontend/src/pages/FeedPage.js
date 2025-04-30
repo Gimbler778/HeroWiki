@@ -55,16 +55,16 @@ function FeedPage() {
         <Layout>
             {/* --- Quotes Section --- */}
             {!loading && !error && quotes.length > 0 && (
-                <div className="flex overflow-x-auto space-x-4 p-4 mb-8 scrollbar-thin scrollbar-thumb-primary scrollbar-track-base-300 backdrop-blur-sm rounded-lg">
+                <div className="flex overflow-x-auto space-x-4 p-4 mb-8 scrollbar-thin scrollbar-thumb-primary scrollbar-track-base-300 backdrop-blur-sm rounded-lg bg-black bg-opacity-80">
                     {quotes.map((quote) => (
                         <div
                             key={quote.id}
-                            className={`card flex-shrink-0 w-72 md:w-80 p-4 rounded-lg shadow ${quote.bgColor} bg-opacity-80`}
+                            className={`card flex-shrink-0 w-72 md:w-80 p-4 rounded-lg shadow ${quote.bgColor}`}
                         >
                             <blockquote className={`text-lg ${quote.font} ${quote.color}`}>
                                 "{quote.text}"
                             </blockquote>
-                            <cite className={`block text-right mt-2 text-sm opacity-80 ${quote.color}`}>
+                            <cite className={`block text-right mt-2 text-sm opacity-50 ${quote.color}`}>
                                 - {quote.author}
                             </cite>
                         </div>
@@ -74,7 +74,7 @@ function FeedPage() {
             {/* --- End Quotes Section --- */}
 
             {/* Title styling for the main feed */}
-            <h1 className="text-3xl md:text-4xl font-bold mb-6 text-center text-primary">
+            <h1 className="text-3xl md:text-4xl font-bold mb-6 text-center text-secondary">
                 {heroes.length > 0 ? 'All Heroes' : 'Hero Feed'}
             </h1>
 
