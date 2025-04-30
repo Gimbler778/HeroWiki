@@ -9,7 +9,6 @@ HeroWiki is a community-driven platform where users can create, explore, and sha
 - **Hero Details**: View detailed information about a hero on a dedicated display page.
 - **Markdown Support**: Write hero descriptions using Markdown syntax for better formatting.
 - **Customizable Cards**: Each hero card can be customized with different colors and styles.
-
 - **Responsive Design**: Fully responsive UI with a dark theme for better readability.
 
 ## Tech Stack
