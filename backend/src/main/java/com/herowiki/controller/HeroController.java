@@ -1,7 +1,7 @@
-package com.yourcompany.herowiki.controller;
+package com.herowiki.controller;
 
-import com.yourcompany.herowiki.model.Hero;
-import com.yourcompany.herowiki.repository.Herorepository;
+import com.herowiki.model.Hero;
+import com.herowiki.repository.Herorepository;
 
 
 import org.springframework.beans.factory.annotation.Autowired;

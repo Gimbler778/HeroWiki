@@ -1,5 +1,5 @@
 // filepath: d:\a 2.o\herowiki\backend\src\main\java\com\yourcompany\herowiki\model\Hero.java
-package com.yourcompany.herowiki.model;
+package com.herowiki.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
