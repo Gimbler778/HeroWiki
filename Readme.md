@@ -112,8 +112,3 @@ HeroWiki is a community-driven platform where users can create, explore, and sha
 ## License
 
 This project is licensed under the [MIT License](LICENSE.txt).
-
-## Contact
-
-- **Instagram**: [@aditya_fr_fr](https://www.instagram.com/aditya_fr_fr/)
-- **LinkedIn**: [Devansh Soni](https://in.linkedin.com/in/devanshsoni19)
