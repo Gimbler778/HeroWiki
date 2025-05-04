@@ -18,13 +18,13 @@ function LandingPage() {
             <div className="hero-overlay bg-black bg-opacity-60 backdrop-blur-sm"></div>
             <div className="hero-content text-center text-neutral-content">
                 <div className="max-w-md">
-                    <h1 className="mb-5 text-6xl font-bold text-white">HEROWIKI</h1>
+                    <h1 className="mb-5 text-6xl font-bold text-yellow-400">HEROWIKI</h1>
                     <p className="mb-5 text-lg text-gray-200">
-                        Discover, create, and share amazing heroes. Explore their stories, powers, and backgrounds in our community-driven wiki.
+                        Discover, create, and share amazing characters. Explore their stories, powers, and complete lore in our community-driven wiki.
                     </p>
                     <button
                         onClick={handleGetStarted}
-                        className="btn btn-outline btn-accent btn-lg" // Updated button style
+                        className="btn btn-outline btn-accent btn-lg" 
                     >
                         Get Started
                     </button>
