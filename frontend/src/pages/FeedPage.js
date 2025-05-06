@@ -22,7 +22,7 @@ const quotes = [
     { id: 15, text: "A man chooses, a slave obeys.", author: "Bioshock", color: "text-cyan-400", font: "font-mono", bgColor: "bg-cyan-900/30" },
     { id: 16, text: "The Force will be with you. Always.", author: "Star Wars", color: "text-indigo-400", font: "font-serif italic", bgColor: "bg-indigo-900/30" },
     { id: 17, text: "Nothing is true, everything is permitted.", author: "Assassin's Creed", color: "text-gray-400", font: "font-sans font-bold", bgColor: "bg-gray-900/30" },
-    { id: 18, text: "Stay awhile and listen.", author: "Diablo", color: "text-yellow-500", font: "font-serif", bgColor: "bg-yellow-800/30" },
+    { id: 18, text: "Stay a while and listen.", author: "Diablo", color: "text-yellow-500", font: "font-serif", bgColor: "bg-yellow-800/30" },
     { id: 19, text: "Praise the Sun!", author: "Dark Souls", color: "text-orange-500", font: "font-sans uppercase font-black", bgColor: "bg-orange-800/30" },
     { id: 20, text: "It's dangerous to go alone! Take this.", author: "The Legend of Zelda", color: "text-green-500", font: "font-mono", bgColor: "bg-green-900/30" },
 ];

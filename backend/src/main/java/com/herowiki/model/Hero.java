@@ -1,4 +1,3 @@
-// filepath: d:\a 2.o\herowiki\backend\src\main\java\com\yourcompany\herowiki\model\Hero.java
 package com.herowiki.model;
 
 import jakarta.persistence.Entity;
@@ -20,7 +19,7 @@ public class Hero {
     @Lob
     private String description;
 
-    private String cardColor; // <<< ADD THIS FIELD
+    private String cardColor; 
 
     // --- GETTERS AND SETTERS ---
     public Long getId() {
@@ -47,11 +46,11 @@ public class Hero {
         this.description = description;
     }
 
-    public String getCardColor() { // <<< ADD GETTER
+    public String getCardColor() { 
         return cardColor;
     }
 
-    public void setCardColor(String cardColor) { // <<< ADD SETTER
+    public void setCardColor(String cardColor) { 
         this.cardColor = cardColor;
     }
 }

@@ -22,7 +22,7 @@ function HeroCard({ hero, bgColor, textColor }) {
     const fallbackTextColor = 'text-white';
 
     return (
-        <Link to={`/hero/${hero.id}`} className="block group h-full"> {/* Add Link to DisplayPage */}
+        <Link to={`/hero/${hero.id}`} className="block group h-full"> 
             <div className={`card shadow-xl h-full transition-all duration-300 ease-in-out group-hover:scale-[1.03] group-hover:shadow-2xl ${bgColor || fallbackColor}`}>
                 <div className={`card-body ${textColor || fallbackTextColor}`}>
                     <h2 className="card-title truncate">{hero.title || 'Untitled Hero'}</h2>

@@ -1,14 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-/* filepath: d:\a 2.o\herowiki\frontend\src\index.css */
+
 @import '@fortawesome/fontawesome-free/css/all.min.css';
 body {
   background-image: url('https://images7.alphacoders.com/983/983491.png');
  
   /* opacity */
   /*backgrond is not fixed and scrolls*/
-  background-attachment: scroll; /* Change to 'fixed' if you want it to stay in place */
+  background-attachment: scroll; 
   background-repeat: no-repeat; /* Prevents the image from repeating */
   background-color: #000; /* Fallback color in case image fails to load */
   
@@ -16,16 +16,14 @@ body {
   @apply text-base-content; /* Use DaisyUI's base content color for default text */
 }
 
-/* Style for the main content area within Layout to create layering */
-/* Targets the <main> tag inside the Layout component */
+
 main {
    @apply bg-base-100 bg-opacity-80 rounded-lg my-8 shadow-lg;
    /* Adjust opacity (e.g., bg-opacity-70, bg-opacity-90) as desired */
    /* my-8 adds vertical margin */
 }
 
-/* Ensure Layout component itself doesn't add conflicting backgrounds */
-/* This might not be needed if Layout is simple */
+
 /* .layout-container { */
   /* background: transparent; */
 /* } */

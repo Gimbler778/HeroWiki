@@ -76,7 +76,7 @@ function DisplayPage() {
                             </h1>
                             <ReactMarkdown>{hero.description}</ReactMarkdown>
 
-                            {/* Update Button */}
+                            
                             <div className="mt-8 text-center">
                                 <button
                                     onClick={() => setIsEditing(true)} // Open the edit form

@@ -3,7 +3,6 @@ package com.herowiki.controller;
 import com.herowiki.model.Hero;
 import com.herowiki.repository.Herorepository;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
