@@ -19,7 +19,7 @@ public class HeroController {
 
     @GetMapping
     public List<Hero> getAllHeroes() {
-        return herorepository.findAll();
+        return herorepository.findAll();  
     }
 
     @GetMapping("/{id}")
