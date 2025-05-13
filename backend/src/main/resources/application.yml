@@ -1,7 +1,7 @@
 spring:
   datasource:
    
-    url: jdbc:h2:file:D:/a 2.o/HeroWiki/backend/data/herowiki 
+    url: jdbc:h2:file:./data/herowiki 
     driver-class-name: org.h2.Driver
     username: sa
     password: password
