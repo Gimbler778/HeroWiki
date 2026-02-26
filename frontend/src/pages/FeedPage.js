@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import Layout from '../components/Layout';
 import HeroCard from '../components/HeroCard';
-import { getAllHeroes } from '../services/heroService';
+import { getAllHeroes, getHeroesMeta } from '../services/heroService';
 
 // --- Updated Quotes Data ---
 const quotes = [
@@ -29,7 +30,10 @@ const quotes = [
 // --- End Updated Quotes Data ---
 
 function FeedPage() {
+    const location = useLocation();
+    const refreshAt = location.state?.refreshAt;
     const [heroes, setHeroes] = useState([]);
+    const [heroMeta, setHeroMeta] = useState({});
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -40,6 +44,10 @@ function FeedPage() {
                 setError(null);
                 const data = await getAllHeroes();
                 setHeroes(data);
+
+                const ids = data.map((hero) => hero.id);
+                const meta = await getHeroesMeta(ids);
+                setHeroMeta(meta);
             } catch (err) {
                 console.error("Failed to fetch heroes:", err);
                 setError("Failed to load heroes. Please try again later.");
@@ -49,7 +57,7 @@ function FeedPage() {
         };
 
         fetchHeroes();
-    }, []);
+    }, [refreshAt]);
 
     return (
         <Layout>
@@ -95,6 +103,7 @@ function FeedPage() {
                                 key={hero.id}
                                 hero={hero}
                                 bgColor={hero.cardColor}
+                                initialMeta={heroMeta[hero.id]}
                             />
                         ))}
                     </div>

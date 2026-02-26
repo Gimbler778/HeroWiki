@@ -1,7 +1,8 @@
-import React, { useState } from 'react'; // Added useState import
+import React, { useState, useEffect } from 'react'; // Added useState import
 import { useNavigate } from 'react-router-dom'; // Added useNavigate import
 import Layout from '../components/Layout';
-import { createHero } from '../services/heroService';
+import LoginModal from '../components/LoginModal';
+import { createHero, getMyProfile } from '../services/heroService';
 
 // --- Updated Color Palette ---
 const colorPalette = [
@@ -24,10 +25,22 @@ function CreatePostPage() {
     const [cardColor, setCardColor] = useState(defaultColor); // State for selected color
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState(null);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [showLoginModal, setShowLoginModal] = useState(false);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        getMyProfile()
+            .then(() => setIsLoggedIn(true))
+            .catch(() => setIsLoggedIn(false));
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!isLoggedIn) {
+            setShowLoginModal(true);
+            return;
+        }
         if (!title.trim()) {
             setError("Hero Title / Name cannot be empty.");
             return;
@@ -49,6 +62,11 @@ function CreatePostPage() {
             });
             navigate('/feed');
         } catch (err) {
+            if (err.response?.status === 401) {
+                setShowLoginModal(true);
+                setIsSubmitting(false);
+                return;
+            }
             console.error("Failed to create hero:", err);
             setError(err.response?.data?.message || "Failed to create hero. Please try again.");
             setIsSubmitting(false);
@@ -57,6 +75,11 @@ function CreatePostPage() {
 
     return (
         <Layout>
+            <LoginModal
+                isOpen={showLoginModal}
+                onClose={() => setShowLoginModal(false)}
+                message="You need to be logged in to create a hero post."
+            />
             <h1 className="text-3xl font-bold mb-6 text-center">Create New Hero</h1>
 
             {error && <div className="alert alert-error shadow-lg mb-4"><span>{error}</span></div>}

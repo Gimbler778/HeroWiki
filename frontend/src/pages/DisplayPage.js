@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import Layout from '../components/Layout';
-import { getHeroById, updateHero } from '../services/heroService'; // Import updateHero
+import { getHeroById, updateHero, getGoogleOAuthLoginUrl } from '../services/heroService';
 
 function DisplayPage() {
     const { id } = useParams();
@@ -47,6 +47,10 @@ function DisplayPage() {
             setHero({ ...hero, ...updatedHero }); // Update the local state
             setIsEditing(false); // Close the edit form
         } catch (err) {
+            if (err.response?.status === 401) {
+                window.location.href = getGoogleOAuthLoginUrl();
+                return;
+            }
             console.error("Failed to update hero:", err);
             setError("Failed to update hero. Please try again.");
         }

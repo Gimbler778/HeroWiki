@@ -23,9 +23,9 @@ HeroWiki is a community-driven platform where users can create, explore, and sha
 
 ### Backend
 - **Spring Boot**: For building the RESTful API.
-- **H2 Database**: For storing hero data (file-based).
+- **PostgreSQL (Neon-ready)**: For storing hero, vote, favorite, and user data.
 - **Spring Data JPA**: For database interactions.
-- **Spring Security**: For securing the API endpoints.
+- **Spring Security + OAuth2 Login**: For Google/GitHub sign-in.
 
 ## Installation
 
@@ -45,6 +45,17 @@ HeroWiki is a community-driven platform where users can create, explore, and sha
    - Navigate to the backend directory:
      ```bash
      cd backend
+     ```
+   - Configure environment variables (PowerShell example):
+     ```powershell
+     $env:SPRING_DATASOURCE_URL="jdbc:postgresql://ep-...neon.tech/neondb?sslmode=require&channel_binding=require"
+     $env:SPRING_DATASOURCE_USERNAME="neondb_owner"
+     $env:SPRING_DATASOURCE_PASSWORD="<your_password>"
+     $env:SPRING_DATASOURCE_DRIVER_CLASS_NAME="org.postgresql.Driver"
+     $env:SPRING_JPA_DATABASE_PLATFORM="org.hibernate.dialect.PostgreSQLDialect"
+     $env:APP_FRONTEND_URL="http://localhost:3000"
+     $env:GOOGLE_CLIENT_ID="<google_client_id>"
+     $env:GOOGLE_CLIENT_SECRET="<google_client_secret>"
      ```
    - Build and run the Spring Boot application:
      ```bash
@@ -84,8 +95,22 @@ HeroWiki is a community-driven platform where users can create, explore, and sha
 ### Hero Endpoints
 - **GET** `/api/heroes`: Fetch all heroes.
 - **GET** `/api/heroes/{id}`: Fetch a hero by ID.
-- **POST** `/api/heroes`: Create a new hero.
-- **PUT** `/api/heroes/{id}`: Update an existing hero.
+- **POST** `/api/heroes`: Create a new hero (OAuth required).
+- **PUT** `/api/heroes/{id}`: Update your hero.
+- **DELETE** `/api/heroes/{id}`: Delete your hero.
+- **POST** `/api/heroes/{id}/vote?value=1|-1`: Upvote/downvote once per user.
+- **DELETE** `/api/heroes/{id}/vote`: Remove your vote.
+- **POST** `/api/heroes/{id}/favorite`: Add to favorites.
+- **DELETE** `/api/heroes/{id}/favorite`: Remove from favorites.
+
+### Profile Endpoints
+- **GET** `/api/me`: Current user profile.
+- **GET** `/api/me/posts`: Current user's posts.
+- **GET** `/api/me/favorites`: Current user's favorite heroes.
+
+### OAuth Endpoints
+- **GET** `/oauth2/authorization/google`
+- **GET** `/oauth2/authorization/github`
 
 
 ## Screenshots
@@ -104,7 +129,6 @@ HeroWiki is a community-driven platform where users can create, explore, and sha
 
 ## Future Enhancements
 
-- Add user authentication and authorization.
 - Implement pagination or infinite scrolling for the feed.
 - Add search and filter functionality for heroes.
 - Allow users to upload images for hero profiles.

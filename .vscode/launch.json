@@ -1,0 +1,14 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Run HeroWiki Backend",
+      "request": "launch",
+      "mainClass": "com.herowiki.HerowikiApplication",
+      "projectName": "herowiki",
+      "cwd": "${workspaceFolder}/backend",
+      "envFile": "${workspaceFolder}/backend/.env"
+    }
+  ]
+}

@@ -38,3 +38,6 @@ target/
 
 # IDE files (example for VS Code)
 .vscode/
+
+# Local environment secrets
+.env
