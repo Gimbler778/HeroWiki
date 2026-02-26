@@ -23,6 +23,12 @@ spring:
 
 server:
   port: 8080
+  forward-headers-strategy: framework
+  servlet:
+    session:
+      cookie:
+        same-site: ${SERVER_SERVLET_SESSION_COOKIE_SAME_SITE:lax}
+        secure: ${SERVER_SERVLET_SESSION_COOKIE_SECURE:false}
 
 app:
   frontend-url: ${APP_FRONTEND_URL:http://localhost:3000}

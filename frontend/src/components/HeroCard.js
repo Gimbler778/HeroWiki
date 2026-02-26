@@ -11,6 +11,7 @@ import LoginModal from './LoginModal';
 function HeroCard({ hero, bgColor, textColor, initialMeta }) {
     const [upvotes, setUpvotes] = useState(initialMeta?.upvotes ?? 0);
     const [downvotes, setDownvotes] = useState(initialMeta?.downvotes ?? 0);
+    const [score, setScore] = useState(initialMeta?.score ?? ((initialMeta?.upvotes ?? 0) - (initialMeta?.downvotes ?? 0)));
     const [myVote, setMyVote] = useState(initialMeta?.myVote ?? 0);
     const [favorited, setFavorited] = useState(initialMeta?.favorited ?? false);
     const [isBusy, setIsBusy] = useState(false);
@@ -19,6 +20,7 @@ function HeroCard({ hero, bgColor, textColor, initialMeta }) {
     useEffect(() => {
         setUpvotes(initialMeta?.upvotes ?? 0);
         setDownvotes(initialMeta?.downvotes ?? 0);
+        setScore(initialMeta?.score ?? ((initialMeta?.upvotes ?? 0) - (initialMeta?.downvotes ?? 0)));
         setMyVote(initialMeta?.myVote ?? 0);
         setFavorited(initialMeta?.favorited ?? false);
     }, [initialMeta]);
@@ -44,6 +46,7 @@ function HeroCard({ hero, bgColor, textColor, initialMeta }) {
     const applyVoteSummary = (summary, nextVoteValue) => {
         setUpvotes(summary.upvotes ?? 0);
         setDownvotes(summary.downvotes ?? 0);
+        setScore(summary.score ?? ((summary.upvotes ?? 0) - (summary.downvotes ?? 0)));
         setMyVote(nextVoteValue);
     };
 
@@ -122,23 +125,27 @@ function HeroCard({ hero, bgColor, textColor, initialMeta }) {
                         </button>
                     </div>
 
-                    <div className="flex justify-between items-center mt-4">
+                    <div className="flex items-center justify-between mt-4 gap-3">
                         <button
                             onClick={(e) => handleVote(e, 1)}
                             className={`btn btn-soft flex items-center gap-2 ${myVote === 1 ? 'btn-success' : 'btn-ghost'}`}
                             disabled={isBusy}
+                            title="Upvote"
                         >
                             <i className="fas fa-arrow-up"></i>
-                            {upvotes}
                         </button>
+
+                        <span className="text-lg font-bold min-w-[3rem] text-center" title={`Upvotes: ${upvotes}, Downvotes: ${downvotes}`}>
+                            {score}
+                        </span>
 
                         <button
                             onClick={(e) => handleVote(e, -1)}
                             className={`btn btn-soft flex items-center gap-2 ${myVote === -1 ? 'btn-error' : 'btn-ghost'}`}
                             disabled={isBusy}
+                            title="Downvote"
                         >
                             <i className="fas fa-arrow-down"></i>
-                            {downvotes}
                         </button>
                     </div>
                 </div>

@@ -3,7 +3,6 @@ package com.herowiki.controller;
 import com.herowiki.config.CurrentUserService;
 import com.herowiki.model.AppUser;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,15 +29,15 @@ public class AuthController {
     public Map<String, Object> status(Authentication authentication) {
         Map<String, Object> result = new HashMap<>();
 
-        if (authentication == null
-                || !authentication.isAuthenticated()
-                || !(authentication instanceof OAuth2AuthenticationToken)) {
+        if (authentication == null || !authentication.isAuthenticated()) {
             result.put("authenticated", false);
             return result;
         }
 
         try {
-            AppUser user = currentUserService.getOrCreateCurrentUser(authentication);
+            AppUser user = currentUserService
+                    .getCurrentUserIfAuthenticated(authentication)
+                    .orElseGet(() -> currentUserService.getOrCreateCurrentUser(authentication));
             Map<String, Object> userMap = new HashMap<>();
             userMap.put("id", user.getId());
             userMap.put("displayName", user.getDisplayName() != null ? user.getDisplayName() : "");

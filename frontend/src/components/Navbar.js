@@ -28,7 +28,23 @@ function Navbar() {
                 setProfileLoaded(true);
             }
         };
+
         loadProfile();
+
+        const handleFocus = () => loadProfile();
+        const handleVisibility = () => {
+            if (document.visibilityState === 'visible') {
+                loadProfile();
+            }
+        };
+
+        window.addEventListener('focus', handleFocus);
+        document.addEventListener('visibilitychange', handleVisibility);
+
+        return () => {
+            window.removeEventListener('focus', handleFocus);
+            document.removeEventListener('visibilitychange', handleVisibility);
+        };
     }, [location.pathname]);
 
     // Close dropdown when clicking outside

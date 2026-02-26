@@ -68,7 +68,12 @@ public class OAuthSuccessHandler implements AuthenticationSuccessHandler {
             // Never block login due to logging failure
         }
 
-        response.sendRedirect(frontendUrl + "/feed");
+        String redirectBase = frontendUrl != null ? frontendUrl.trim() : "http://localhost:3000";
+        if (redirectBase.endsWith("/")) {
+            redirectBase = redirectBase.substring(0, redirectBase.length() - 1);
+        }
+
+        response.sendRedirect(redirectBase + "/feed");
     }
 
     private String getClientIp(HttpServletRequest request) {
