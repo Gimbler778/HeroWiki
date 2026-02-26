@@ -1,7 +1,8 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8080/api/heroes'; // Backend API URL
-const PROFILE_URL = 'http://localhost:8080/api/me';
+const BACKEND_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
+const API_URL = `${BACKEND_URL}/api/heroes`;
+const PROFILE_URL = `${BACKEND_URL}/api/me`;
 
 axios.defaults.withCredentials = true;
 
@@ -68,7 +69,7 @@ export const getMyProfile = async () => {
 };
 
 export const getAuthStatus = async () => {
-    const response = await axios.get('http://localhost:8080/api/auth/status');
+    const response = await axios.get(`${BACKEND_URL}/api/auth/status`);
     return response.data; // { authenticated: bool, user?: {...} }
 };
 
@@ -82,8 +83,8 @@ export const getMyFavorites = async () => {
     return response.data;
 };
 
-export const getGoogleOAuthLoginUrl = () => 'http://localhost:8080/oauth2/authorization/google';
-export const getGithubOAuthLoginUrl = () => 'http://localhost:8080/oauth2/authorization/github';
+export const getGoogleOAuthLoginUrl = () => `${BACKEND_URL}/oauth2/authorization/google`;
+export const getGithubOAuthLoginUrl = () => `${BACKEND_URL}/oauth2/authorization/github`;
 export const logout = async () => {
-    await axios.post('http://localhost:8080/api/logout');
+    await axios.post(`${BACKEND_URL}/api/logout`);
 };
