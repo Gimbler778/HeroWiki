@@ -1,137 +1,128 @@
 # HeroWiki
 
-HeroWiki is a community-driven platform where users can create, explore, and share information about fictional heroes. The platform allows users to create hero profiles, customize their appearance, and explore a feed of heroes contributed by others.
+HeroWiki is a community-driven platform for posting and exploring fictional heroes. Users can sign in with Google/GitHub, create posts, vote (Reddit-style net score), and favorite heroes.
 
 ## Features
 
-- **Hero Creation**: Users can create hero profiles with a title, description (Markdown supported), and customizable card colors.
-- **Hero Feed**: A dynamic feed displaying all created heroes with upvote and downvote functionality.
-- **Hero Details**: View detailed information about a hero on a dedicated display page.
-- **Markdown Support**: Write hero descriptions using Markdown syntax for better formatting.
-- **Customizable Cards**: Each hero card can be customized with different colors and styles.
-- **Responsive Design**: Fully responsive UI with a dark theme for better readability.
+- OAuth login (Google + GitHub)
+- Hero feed with vote/favorite metadata loaded from backend
+- Reddit-style vote score (`score = upvotes - downvotes`)
+- Profile page (my posts, my favorites)
+- Session tracking in DB (`spring_session` + `session_log`) with 3-day timeout
 
 ## Tech Stack
 
-### Frontend
-- **React**: For building the user interface.
-- **React Router**: For navigation between pages.
-- **Tailwind CSS**: For styling the application.
-- **DaisyUI**: For pre-styled components.
-- **Axios**: For making API requests to the backend.
-- **React Markdown**: For rendering Markdown content.
+- Frontend: React, React Router, Axios, Tailwind CSS, DaisyUI
+- Backend: Spring Boot, Spring Security OAuth2, Spring Data JPA
+- Database: PostgreSQL (Neon)
+- Deploy: Vercel (frontend) + Render (backend)
 
-### Backend
-- **Spring Boot**: For building the RESTful API.
-- **PostgreSQL (Neon-ready)**: For storing hero, vote, favorite, and user data.
-- **Spring Data JPA**: For database interactions.
-- **Spring Security + OAuth2 Login**: For Google/GitHub sign-in.
-
-## Installation
+## Local Development
 
 ### Prerequisites
-- Node.js and npm installed on your system.
-- Java 17 or higher installed on your system.
 
-### Steps to Run the Project
+- Node.js 18+
+- Java 21+
+- Maven 3.9+
 
-1. **Clone the Repository**:
-   ```bash
-   git clone https://github.com/yourusername/herowiki.git
-   cd herowiki
-   ```
+### 1) Backend
 
-2. **Run the Backend**:
-   - Navigate to the backend directory:
-     ```bash
-     cd backend
-     ```
-   - Configure environment variables (PowerShell example):
-     ```powershell
-     $env:SPRING_DATASOURCE_URL="jdbc:postgresql://ep-...neon.tech/neondb?sslmode=require&channel_binding=require"
-     $env:SPRING_DATASOURCE_USERNAME="neondb_owner"
-     $env:SPRING_DATASOURCE_PASSWORD="<your_password>"
-     $env:SPRING_DATASOURCE_DRIVER_CLASS_NAME="org.postgresql.Driver"
-     $env:SPRING_JPA_DATABASE_PLATFORM="org.hibernate.dialect.PostgreSQLDialect"
-     $env:APP_FRONTEND_URL="http://localhost:3000"
-     $env:GOOGLE_CLIENT_ID="<google_client_id>"
-     $env:GOOGLE_CLIENT_SECRET="<google_client_secret>"
-     ```
-   - Build and run the Spring Boot application:
-     ```bash
-     mvn spring-boot:run
-     ```
-   - The backend will be available at `http://localhost:8080`.
+Create `backend/.env` (example in `backend/.env.example`) and set:
 
-3. **Run the Frontend**:
-   - Navigate to the frontend directory:
-     ```bash
-     cd ../frontend
-     ```
-   - Install dependencies:
-      ```bash
-      npm install react-router-dom axios react-markdown
-      ```
-   - Install Tailwind CSS and DaisyUI:
-     ```bash
-     npm install tailwindcss daisyui
-     ```
-   - Initialize Tailwind CSS:
-     ```bash
-     npx tailwindcss init
-     ```
-   - Install dependencies:
-     ```bash
-     npm install
-     ```
-   - Start the React development server:
-     ```bash
-     npm start
-     ```
-   - The frontend will be available at `http://localhost:3000`.
+```dotenv
+SPRING_DATASOURCE_URL=jdbc:postgresql://<neon-host>/neondb?sslmode=require&channel_binding=require
+SPRING_DATASOURCE_USERNAME=<db_user>
+SPRING_DATASOURCE_PASSWORD=<db_password>
+APP_FRONTEND_URL=http://localhost:3000
+
+SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_GOOGLE_CLIENT_ID=<google_client_id>
+SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_GOOGLE_CLIENT_SECRET=<google_client_secret>
+SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_GITHUB_CLIENT_ID=<github_client_id>
+SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_GITHUB_CLIENT_SECRET=<github_client_secret>
+```
+
+Run:
+
+```bash
+cd backend
+./run-backend.ps1
+```
+
+### 2) Frontend
+
+Create `frontend/.env.development`:
+
+```dotenv
+REACT_APP_API_URL=http://localhost:8080
+```
+
+Run:
+
+```bash
+cd frontend
+npm install
+npm start
+```
+
+## Production Deployment (Render + Vercel)
+
+### Frontend (Vercel)
+
+Set Vercel env var:
+
+```dotenv
+REACT_APP_API_URL=https://<your-backend>.onrender.com
+```
+
+### Backend (Render)
+
+Set Render env vars:
+
+```dotenv
+SPRING_DATASOURCE_URL=jdbc:postgresql://<neon-host>/neondb?sslmode=require&channel_binding=require
+SPRING_DATASOURCE_USERNAME=<db_user>
+SPRING_DATASOURCE_PASSWORD=<db_password>
+
+APP_FRONTEND_URL=https://<your-frontend>.vercel.app
+
+SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_GOOGLE_CLIENT_ID=<google_client_id>
+SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_GOOGLE_CLIENT_SECRET=<google_client_secret>
+SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_GITHUB_CLIENT_ID=<github_client_id>
+SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_GITHUB_CLIENT_SECRET=<github_client_secret>
+
+SERVER_SERVLET_SESSION_COOKIE_SAME_SITE=none
+SERVER_SERVLET_SESSION_COOKIE_SECURE=true
+```
+
+Notes:
+
+- `APP_FRONTEND_URL` must be exact origin with **no trailing slash**.
+- Backend OAuth callback URLs must point to backend domain:
+  - `https://<your-backend>.onrender.com/login/oauth2/code/google`
+  - `https://<your-backend>.onrender.com/login/oauth2/code/github`
 
 ## API Endpoints
 
-### Hero Endpoints
-- **GET** `/api/heroes`: Fetch all heroes.
-- **GET** `/api/heroes/{id}`: Fetch a hero by ID.
-- **POST** `/api/heroes`: Create a new hero (OAuth required).
-- **PUT** `/api/heroes/{id}`: Update your hero.
-- **DELETE** `/api/heroes/{id}`: Delete your hero.
-- **POST** `/api/heroes/{id}/vote?value=1|-1`: Upvote/downvote once per user.
-- **DELETE** `/api/heroes/{id}/vote`: Remove your vote.
-- **POST** `/api/heroes/{id}/favorite`: Add to favorites.
-- **DELETE** `/api/heroes/{id}/favorite`: Remove from favorites.
+### Hero
 
-### Profile Endpoints
-- **GET** `/api/me`: Current user profile.
-- **GET** `/api/me/posts`: Current user's posts.
-- **GET** `/api/me/favorites`: Current user's favorite heroes.
+- `GET /api/heroes`
+- `GET /api/heroes/{id}`
+- `GET /api/heroes/meta?ids=1,2,3`
+- `POST /api/heroes`
+- `PUT /api/heroes/{id}`
+- `DELETE /api/heroes/{id}`
+- `POST /api/heroes/{id}/vote?value=1|-1`
+- `DELETE /api/heroes/{id}/vote`
+- `POST /api/heroes/{id}/favorite`
+- `DELETE /api/heroes/{id}/favorite`
 
-### OAuth Endpoints
-- **GET** `/oauth2/authorization/google`
-- **GET** `/oauth2/authorization/github`
+### Auth/Profile
 
-
-## Screenshots
-
-### Landing Page
-![Landing Page](/screenshots/landingpage.png)
-
-### Feed Page
-![Feed Page](/screenshots/feedpage.png)
-
-### Create Post Page
-![Create Post Page](/screenshots/createpost.png)
-
-### Display Page
-![Display Page](/screenshots/displaypage.png)
-
-## Future Enhancements
-
-- Implement pagination or infinite scrolling for the feed.
-- Add search and filter functionality for heroes.
-- Allow users to upload images for hero profiles.
+- `GET /api/auth/status`
+- `POST /api/logout`
+- `GET /api/me`
+- `GET /api/me/posts`
+- `GET /api/me/favorites`
 
 ## License
 
