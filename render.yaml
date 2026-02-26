@@ -1,11 +1,10 @@
 services:
   - type: web
     name: hero-wiki-backend
-    env: java
-    rootDir: backend
+    env: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
     plan: free
-    buildCommand: mvn clean package -DskipTests
-    startCommand: java -jar target/herowiki-0.0.1-SNAPSHOT.jar
     healthCheckPath: /api/heroes
     autoDeploy: true
     envVars:
