@@ -2,6 +2,7 @@ package com.herowiki.config;
 
 import com.herowiki.repository.SessionLogRepository;
 import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -9,6 +10,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.OrRequestMatcher;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -19,6 +22,9 @@ public class SecurityConfig {
     private final OAuthSuccessHandler oAuthSuccessHandler;
     private final SessionLogRepository sessionLogRepository;
     private final CurrentUserService currentUserService;
+
+    @Value("${app.frontend-url:http://localhost:3000}")
+    private String frontendUrl;
 
     public SecurityConfig(OAuthSuccessHandler oAuthSuccessHandler,
                           SessionLogRepository sessionLogRepository,
@@ -54,6 +60,10 @@ public class SecurityConfig {
 
         http.logout(logout -> logout
                 .logoutUrl("/api/logout")
+            .logoutRequestMatcher(new OrRequestMatcher(
+                new AntPathRequestMatcher("/api/logout", "POST"),
+                new AntPathRequestMatcher("/api/logout", "GET")
+            ))
                 .invalidateHttpSession(true)
                 .clearAuthentication(true)
                 .deleteCookies("SESSION", "JSESSIONID")
@@ -69,6 +79,25 @@ public class SecurityConfig {
                                 });
                         }
                     } catch (Exception ignored) {}
+
+                    String redirectBase = frontendUrl != null ? frontendUrl.trim() : "http://localhost:3000";
+                    if (redirectBase.contains(",")) {
+                        redirectBase = redirectBase.split(",")[0].trim();
+                    }
+                    if (redirectBase.endsWith("/")) {
+                        redirectBase = redirectBase.substring(0, redirectBase.length() - 1);
+                    }
+
+                    if ("GET".equalsIgnoreCase(request.getMethod())) {
+                        String redirect = request.getParameter("redirect");
+                        if (redirect != null && !redirect.isBlank() && redirect.startsWith(redirectBase)) {
+                            response.sendRedirect(redirect);
+                            return;
+                        }
+                        response.sendRedirect(redirectBase + "/feed");
+                        return;
+                    }
+
                     response.setStatus(200);
                     response.setContentType("application/json");
                     response.getWriter().write("{\"message\":\"Logged out\"}");

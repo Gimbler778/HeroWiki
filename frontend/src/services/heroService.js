@@ -103,5 +103,23 @@ export const getMyFavorites = async () => {
 export const getGoogleOAuthLoginUrl = () => `${BACKEND_URL}/oauth2/authorization/google`;
 export const getGithubOAuthLoginUrl = () => `${BACKEND_URL}/oauth2/authorization/github`;
 export const logout = async () => {
-    await axios.post(`${BACKEND_URL}/api/logout`);
+    try {
+        await axios.post(`${BACKEND_URL}/api/logout`, null, {
+            params: { _t: Date.now() },
+        });
+    } catch (err) {
+        // Fallback handled below
+    }
+
+    try {
+        const status = await getAuthStatus();
+        if (!status?.authenticated) {
+            return;
+        }
+    } catch (err) {
+        // If status check fails, use hard logout fallback
+    }
+
+    const redirect = `${window.location.origin}/feed`;
+    window.location.assign(`${BACKEND_URL}/api/logout?redirect=${encodeURIComponent(redirect)}`);
 };
