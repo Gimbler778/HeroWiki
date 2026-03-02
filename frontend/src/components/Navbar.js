@@ -40,12 +40,15 @@ function Navbar() {
 
         window.addEventListener('focus', handleFocus);
         document.addEventListener('visibilitychange', handleVisibility);
+        const handlePageShow = () => loadProfile();
+        window.addEventListener('pageshow', handlePageShow);
 
         return () => {
             window.removeEventListener('focus', handleFocus);
             document.removeEventListener('visibilitychange', handleVisibility);
+            window.removeEventListener('pageshow', handlePageShow);
         };
-    }, [location.pathname]);
+    }, [location.pathname, location.search]);
 
     // Close dropdown when clicking outside
     useEffect(() => {
