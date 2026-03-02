@@ -69,7 +69,13 @@ export const getMyProfile = async () => {
 };
 
 export const getAuthStatus = async () => {
-    const response = await axios.get(`${BACKEND_URL}/api/auth/status`);
+    const response = await axios.get(`${BACKEND_URL}/api/auth/status`, {
+        params: { _t: Date.now() },
+        headers: {
+            'Cache-Control': 'no-cache',
+            Pragma: 'no-cache',
+        },
+    });
     return response.data; // { authenticated: bool, user?: {...} }
 };
 
