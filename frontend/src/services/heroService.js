@@ -71,12 +71,23 @@ export const getMyProfile = async () => {
 export const getAuthStatus = async () => {
     const response = await axios.get(`${BACKEND_URL}/api/auth/status`, {
         params: { _t: Date.now() },
-        headers: {
-            'Cache-Control': 'no-cache',
-            Pragma: 'no-cache',
-        },
     });
-    return response.data; // { authenticated: bool, user?: {...} }
+
+    if (response.data?.authenticated) {
+        return response.data; // { authenticated: bool, user?: {...} }
+    }
+
+    try {
+        const profileResponse = await axios.get(PROFILE_URL, {
+            params: { _t: Date.now() },
+        });
+        return {
+            authenticated: true,
+            user: profileResponse.data,
+        };
+    } catch (err) {
+        return response.data;
+    }
 };
 
 export const getMyPosts = async () => {

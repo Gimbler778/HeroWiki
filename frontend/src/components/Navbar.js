@@ -18,10 +18,24 @@ function Navbar() {
     }
 
     useEffect(() => {
-        const loadProfile = async () => {
+        let retryTimer = null;
+
+        const loadProfile = async (attempt = 0) => {
             try {
                 const status = await getAuthStatus();
-                setProfile(status.authenticated ? status.user : null);
+                if (status.authenticated) {
+                    setProfile(status.user);
+                    return;
+                }
+
+                if (attempt < 2) {
+                    retryTimer = setTimeout(() => {
+                        loadProfile(attempt + 1);
+                    }, 700);
+                    return;
+                }
+
+                setProfile(null);
             } catch (err) {
                 setProfile(null);
             } finally {
@@ -47,6 +61,9 @@ function Navbar() {
             window.removeEventListener('focus', handleFocus);
             document.removeEventListener('visibilitychange', handleVisibility);
             window.removeEventListener('pageshow', handlePageShow);
+            if (retryTimer) {
+                clearTimeout(retryTimer);
+            }
         };
     }, [location.pathname, location.search]);
 
