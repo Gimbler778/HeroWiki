@@ -18,24 +18,10 @@ function Navbar() {
     }
 
     useEffect(() => {
-        let retryTimer = null;
-
-        const loadProfile = async (attempt = 0) => {
+        const loadProfile = async () => {
             try {
                 const status = await getAuthStatus();
-                if (status.authenticated) {
-                    setProfile(status.user);
-                    return;
-                }
-
-                if (attempt < 2) {
-                    retryTimer = setTimeout(() => {
-                        loadProfile(attempt + 1);
-                    }, 700);
-                    return;
-                }
-
-                setProfile(null);
+                setProfile(status.authenticated ? status.user : null);
             } catch (err) {
                 setProfile(null);
             } finally {
@@ -61,9 +47,6 @@ function Navbar() {
             window.removeEventListener('focus', handleFocus);
             document.removeEventListener('visibilitychange', handleVisibility);
             window.removeEventListener('pageshow', handlePageShow);
-            if (retryTimer) {
-                clearTimeout(retryTimer);
-            }
         };
     }, [location.pathname, location.search]);
 

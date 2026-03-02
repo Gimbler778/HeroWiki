@@ -69,25 +69,8 @@ export const getMyProfile = async () => {
 };
 
 export const getAuthStatus = async () => {
-    const response = await axios.get(`${BACKEND_URL}/api/auth/status`, {
-        params: { _t: Date.now() },
-    });
-
-    if (response.data?.authenticated) {
-        return response.data; // { authenticated: bool, user?: {...} }
-    }
-
-    try {
-        const profileResponse = await axios.get(PROFILE_URL, {
-            params: { _t: Date.now() },
-        });
-        return {
-            authenticated: true,
-            user: profileResponse.data,
-        };
-    } catch (err) {
-        return response.data;
-    }
+    const response = await axios.get(`${BACKEND_URL}/api/auth/status`);
+    return response.data; // { authenticated: bool, user?: {...} }
 };
 
 export const getMyPosts = async () => {
@@ -103,23 +86,5 @@ export const getMyFavorites = async () => {
 export const getGoogleOAuthLoginUrl = () => `${BACKEND_URL}/oauth2/authorization/google`;
 export const getGithubOAuthLoginUrl = () => `${BACKEND_URL}/oauth2/authorization/github`;
 export const logout = async () => {
-    try {
-        await axios.post(`${BACKEND_URL}/api/logout`, null, {
-            params: { _t: Date.now() },
-        });
-    } catch (err) {
-        // Fallback handled below
-    }
-
-    try {
-        const status = await getAuthStatus();
-        if (!status?.authenticated) {
-            return;
-        }
-    } catch (err) {
-        // If status check fails, use hard logout fallback
-    }
-
-    const redirect = `${window.location.origin}/feed`;
-    window.location.assign(`${BACKEND_URL}/api/logout?redirect=${encodeURIComponent(redirect)}`);
+    await axios.post(`${BACKEND_URL}/api/logout`);
 };
